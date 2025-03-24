@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay Officials Organizational Chart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .chart-container {
+            text-align: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .org-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .level {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .official {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            width: 160px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .official:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .official img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border: 3px solid #4ca1af;
+            transition: transform 0.3s;
+        }
+
+        .official:hover img {
+            transform: scale(1.05);
+        }
+
+        .official h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 5px;
+        }
+
+        .official p {
+            font-size: 12px;
+            color: #555;
+        }
+
+        .line {
+            width: 2px;
+            background: #ddd;
+            height: 25px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 600px) {
+            .official {
+                width: 130px;
+                padding: 10px;
+            }
+
+            .official img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chart-container">
+        <h2 class="org-title">Organizational Chart <br> Barangay VIII Officials <br> FY 2023-2024</h2>
+
+        <!-- Captain -->
+        <div class="level">
+            <div class="official">
+                <img src="assets/captain.jpg" alt="Barangay Captain">
+                <h3>Rodrigo Duterte</h3>
+                <p>Barangay Captain</p>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+        <!-- Kagawads -->
+        <div class="level">
+            <div class="official">
+                <img src="kagawad1.jpg" alt="Kagawad 1">
+                <h3>JULITA G. ROSALES</h3>
+                <p>Kagawad</p>
+            </div>
+            <div class="official">
+                <img src="kagawad2.jpg" alt="Kagawad 2">
+                <h3>FRANCISCO G. GUMARANG</h3>
+                <p>Kagawad</p>
+            </div>
+            <div class="official">
+                <img src="kagawad3.jpg" alt="Kagawad 3">
+                <h3>RENATO P. TING</h3>
+                <p>Kagawad</p>
+            </div>
+            <div class="official">
+                <img src="kagawad4.jpg" alt="Kagawad 4">
+                <h3>GILBERT J. AGUINALDO, SR.</h3>
+                <p>Kagawad</p>
+            </div>
+            <div class="official">
+                <img src="kagawad5.jpg" alt="Kagawad 5">
+                <h3>LEO D. GARRITILLAN</h3>
+                <p>Kagawad</p>
+            </div>
+            <div class="official">
+                <img src="kagawad6.jpg" alt="Kagawad 6">
+                <h3>FREDERICK ALLAN A. BALUCA</h3>
+                <p>Kagawad</p>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+        <!-- Other Officials -->
+        <div class="level">
+            <div class="official">
+                <img src="sk.jpg" alt="SK Chairman">
+                <h3>SK CHAIRPERSON</h3>
+                <p>SK Chairman</p>
+            </div>
+            <div class="official">
+                <img src="sec.jpg" alt="Secretary">
+                <h3>MA. ELENA C. SOLIDUM</h3>
+                <p>Barangay Secretary</p>
+            </div>
+            <div class="official">
+                <img src="treasurer.jpg" alt="Treasurer">
+                <h3>MARITES M. TING</h3>
+                <p>Barangay Treasurer</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Complaints</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 20px;
+    }
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h2 {
+      text-align: center;
+      color: #007bff;
+    }
+    .search-box {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .search-box input {
+      padding: 8px;
+      width: 50%;
+      max-width: 600px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+    select {
+      padding: 4px;
+      border-radius: 4px;
+    }
+    .action-icons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .icon-btn {
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .pagination {
+      margin-top: 10px;
+      text-align: center;
+    }
+    .pagination button {
+      padding: 5px 10px;
+      margin: 2px;
+      border: 1px solid #007bff;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .pagination button:disabled {
+      background-color: #ccc;
+      border: 1px solid #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>All Complaints</h2>
+    <div class="search-box">
+      <input type="text" id="search" placeholder="Search by complainant or complaint..." onkeyup="searchTable()">
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Complainant Name</th>
+          <th>Complaint</th>
+          <th>Date Filed</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <!-- Rows will be populated by JavaScript -->
+      </tbody>
+    </table>
+    <div class="pagination" id="pagination"></div>
+  </div>
+  <script>
+    // Sample data for complaints
+    const data = [
+      { complainant: "Juan Dela Cruz", complaint: "Noise disturbance in the neighborhood.", date: "2025-03-10", status: "Pending" },
+      { complainant: "Maria Santos", complaint: "Illegal dumping of waste.", date: "2025-03-09", status: "Resolved" },
+      { complainant: "Pedro Reyes", complaint: "Water supply interruption.", date: "2025-03-08", status: "Pending" },
+      { complainant: "Ana Garcia", complaint: "Unattended stray animals.", date: "2025-03-07", status: "Resolved" },
+      { complainant: "Liza Martinez", complaint: "Vandalism in public areas.", date: "2025-03-06", status: "Pending" },
+      { complainant: "Carlos Mendoza", complaint: "Traffic violations near school.", date: "2025-03-05", status: "Resolved" },
+      { complainant: "Sofia Ramos", complaint: "Uncollected garbage for days.", date: "2025-03-04", status: "Pending" },
+      { complainant: "Roberto Cruz", complaint: "Loud parties disrupting peace.", date: "2025-03-03", status: "Resolved" },
+      { complainant: "Mia Lopez", complaint: "Broken streetlights causing accidents.", date: "2025-03-02", status: "Pending" },
+      { complainant: "Miguel Perez", complaint: "Littering in public parks.", date: "2025-03-01", status: "Resolved" },
+      { complainant: "Carla Diaz", complaint: "Unauthorized construction noise.", date: "2025-02-28", status: "Pending" }
+    ];
+    
+    let currentPage = 1;
+    const rowsPerPage = 8;
+    
+    function displayTable() {
+      const start = (currentPage - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      const rows = data.slice(start, end);
+      
+      document.getElementById("table-body").innerHTML = rows.map((row, index) => {
+        const dataIndex = start + index;
+        return `
+          <tr>
+            <td>${row.complainant}</td>
+            <td>${row.complaint}</td>
+            <td>${row.date}</td>
+            <td>
+              <select onchange="updateStatus(${dataIndex}, this)">
+                <option value="Pending" ${row.status === "Pending" ? "selected" : ""}>Pending</option>
+                <option value="Resolved" ${row.status === "Resolved" ? "selected" : ""}>Resolved</option>
+              </select>
+            </td>
+            <td class="action-icons">
+              <button class="icon-btn" onclick="viewRecord('${row.complainant}')">🔍 View</button>
+              <button class="icon-btn" onclick="deleteRecord('${row.complainant}')">❌ Delete</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+      updatePagination();
+    }
+    
+    function updateStatus(index, selectElement) {
+      data[index].status = selectElement.value;
+      console.log(`Status for ${data[index].complainant} updated to: ${data[index].status}`);
+    }
+    
+    function updatePagination() {
+      const totalPages = Math.ceil(data.length / rowsPerPage);
+      let paginationHTML = "";
+      for (let i = 1; i <= totalPages; i++) {
+        paginationHTML += `<button onclick="changePage(${i})" ${i === currentPage ? "disabled" : ""}>${i}</button>`;
+      }
+      document.getElementById("pagination").innerHTML = paginationHTML;
+    }
+    
+    function changePage(page) {
+      currentPage = page;
+      displayTable();
+    }
+    
+    function searchTable() {
+      let filter = document.getElementById("search").value.toLowerCase();
+      document.querySelectorAll("#table-body tr").forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
+      });
+    }
+    
+    function viewRecord(name) {
+      alert(`Viewing complaint record for ${name}`);
+    }
+    
+    function deleteRecord(name) {
+      if (confirm(`Are you sure you want to delete ${name}'s complaint record?`)) {
+        const index = data.findIndex(record => record.complainant === name);
+        if (index !== -1) {
+          data.splice(index, 1);
+          displayTable();
+        }
+      }
+    }
+    
+    displayTable();
+  </script>
+</body>
+</html>

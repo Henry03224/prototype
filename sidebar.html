@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      background: #f7f7f7;
+    }
+    /* App Bar */
+    .appbar {
+      width: 100%;
+      height: 60px;
+      background: linear-gradient(90deg, #2c3e50, #34495e);
+      color: #ecf0f1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    .appbar .left {
+      display: flex;
+      align-items: center;
+    }
+    .hamburger-btn {
+      background: none;
+      border: none;
+      color: #ecf0f1;
+      cursor: pointer;
+      font-size: 24px;
+      margin-right: 20px;
+      transition: transform 0.3s;
+    }
+    .hamburger-btn:hover {
+      transform: scale(1.1);
+    }
+    .btn {
+      background: transparent;
+      border: 2px solid #ecf0f1;
+      padding: 6px 16px;
+      color: #ecf0f1;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s, border-color 0.3s, color 0.3s;
+      margin-left: 10px;
+    }
+    .btn:hover {
+      background: #ecf0f1;
+      color: #2c3e50;
+      border-color: #ecf0f1;
+    }
+    .appbar .right {
+      display: flex;
+      align-items: center;
+    }
+    .admin-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .profile-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #ecf0f1;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
+    }
+    .profile-btn img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      margin-left: 8px;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      background: #fff;
+      min-width: 150px;
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      z-index: 1001;
+    }
+    .dropdown-menu a {
+      display: block;
+      padding: 10px 15px;
+      text-decoration: none;
+      color: #34495e;
+      font-size: 14px;
+      border-bottom: 1px solid #eee;
+      transition: background 0.3s;
+    }
+    .dropdown-menu a:last-child {
+      border-bottom: none;
+    }
+    .dropdown-menu a:hover {
+      background: #f1f1f1;
+    }
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      height: 100vh;
+      background: #2c3e50;
+      color: #ecf0f1;
+      position: fixed;
+      left: 0;
+      top: 60px;
+      transition: width 0.3s;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+    }
+    .sidebar.mini {
+      width: 80px;
+    }
+    .sidebar.mini span {
+      display: none;
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: 600;
+      padding: 20px;
+      background: #1a252f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      color: #ecf0f1;
+      text-decoration: none;
+      transition: background 0.3s;
+      font-size: 16px;
+      border-radius: 4px;
+      margin: 5px 15px;
+    }
+    .sidebar a:hover {
+      background: #34495e;
+    }
+    .sidebar a.active {
+      background: #e74c3c;
+    }
+    .submenu {
+      display: none;
+      padding-left: 20px;
+    }
+    .submenu a {
+      font-size: 14px;
+      padding: 10px 20px;
+      color: #bdc3c7;
+    }
+    .submenu a:hover {
+      color: #ecf0f1;
+    }
+    .submenu.show {
+      display: block;
+    }
+    /* Main Content */
+    .content {
+      position: absolute;
+      top: 60px;
+      left: 260px;
+      right: 0;
+      bottom: 0;
+      padding: 15px;
+      overflow: auto;
+      background: #f7f7f7;
+      transition: left 0.3s;
+    }
+    .sidebar.mini + .content {
+      left: 80px;
+    }
+    iframe {
+      width: 100%;
+      height: calc(100vh - 90px);
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <!-- App Bar -->
+  <div class="appbar">
+    <div class="left">
+      <button class="hamburger-btn" onclick="toggleSidebar()">☰</button>
+    </div>
+    <div class="right">
+      <button class="btn" onclick="loadPage('home.html')">Dashboard</button>
+      <button class="btn" onclick="loadPage('home.html')">About</button>
+      <div class="admin-dropdown">
+        <button class="profile-btn" onclick="toggleDropdown()">
+          Administrator
+          <img src="assets/barangay-logo.png" alt="Profile">
+        </button>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a href="#" onclick="loadPage('settings.html'); toggleDropdown()">Settings</a>
+          <a href="#" onclick="logout(); toggleDropdown()">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="logo">
+      <img src="assets/barangay-logo.png" alt="Logo"> <span>My Dashboard</span>
+    </div>
+    <a href="#" onclick="setActive(this); loadPage('home.html')">🏠 <span>Dashboard</span></a>
+    <a href="#" onclick="setActive(this); loadPage('officials.html')">👥 <span>Brgy Officials and Staff</span></a>
+    <a href="#" onclick="toggleSubmenu(); setActive(this);">👤 <span>Residents Record</span></a>
+    <div class="submenu" id="residentsMenu">
+      <a href="#" onclick="setActive(this, true); loadPage('barangay_certificates.html')">🏅 Barangay Certificates</a>
+      <a href="#" onclick="setActive(this, true); loadPage('indigency.html')">📜 Certificate of Indigency</a>
+      <a href="#" onclick="setActive(this, true); loadPage('business-clearance.html')">📄 Brgy Business Clearance</a>
+      <a href="#" onclick="setActive(this, true); loadPage('blotter.html')">📂 Record of Complaint</a>
+    </div>
+    <a href="#" onclick="setActive(this); loadPage('household.html')">🏠 <span>Household Record</span></a>
+  </div>
+  
+  <!-- Main Content -->
+  <div class="content" id="content">
+    <iframe id="dashboardFrame" src="home.html"></iframe>
+  </div>
+  
+  <script>
+    function toggleSidebar() {
+      var sidebar = document.getElementById("sidebar");
+      var content = document.getElementById("content");
+      var submenu = document.getElementById("residentsMenu");
+      sidebar.classList.toggle("mini");
+      if (sidebar.classList.contains("mini")) {
+        content.style.left = "80px";
+        submenu.classList.remove("show");
+      } else {
+        content.style.left = "260px";
+      }
+    }
+    function loadPage(page) {
+      document.getElementById("dashboardFrame").src = page;
+    }
+    function logout() {
+      window.location.href = "index.html";
+    }
+    function toggleSubmenu() {
+      var submenu = document.getElementById("residentsMenu");
+      submenu.classList.toggle("show");
+    }
+    function setActive(element, isSubmenu = false) {
+      var links = document.querySelectorAll(".sidebar a");
+      links.forEach(link => link.classList.remove("active"));
+      if (!isSubmenu) {
+        element.classList.add("active");
+      }
+    }
+    function toggleDropdown() {
+      var dropdown = document.getElementById("dropdownMenu");
+      dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+    }
+    window.onclick = function(event) {
+      if (!event.target.matches('.profile-btn') && !event.target.closest('.admin-dropdown')) {
+        document.getElementById("dropdownMenu").style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>

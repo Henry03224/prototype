@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay Services - Barangay Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: #f5f6fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+        .header {
+            background: #1a252f;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .service-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        .service-card h2 {
+            font-size: 18px;
+            color: #1a252f;
+        }
+        .service-card p {
+            font-size: 14px;
+            color: #666;
+        }
+        .icon {
+            font-size: 40px;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        .back {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back a {
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a252f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Barangay Services</h1>
+            <p>Select a clearance or certificate to apply</p>
+        </div>
+
+        <div class="services">
+            <a href="barangay_clearance.html" class="service-card">
+                <div class="icon">📄</div>
+                <h2>Barangay Clearance</h2>
+                <p>Standard clearance for various transactions</p>
+            </a>
+            <a href="certificate_residency.html" class="service-card">
+                <div class="icon">🏠</div>
+                <h2>Certificate of Residency</h2>
+                <p>Proof of residence in the barangay</p>
+            </a>
+            <a href="business_clearance.html" class="service-card">
+                <div class="icon">📜</div>
+                <h2>Business Clearance</h2>
+                <p>Permit for business operations</p>
+            </a>
+            <a href="indigency_certificate.html" class="service-card">
+                <div class="icon">📑</div>
+                <h2>Certificate of Indigency</h2>
+                <p>Proof of financial need</p>
+            </a>
+            <a href="barangay_id.html" class="service-card">
+                <div class="icon">🆔</div>
+                <h2>Barangay ID</h2>
+                <p>Official barangay identification card</p>
+            </a>
+            <a href="sk_clearance.html" class="service-card">
+                <div class="icon">🎓</div>
+                <h2>SK Clearance</h2>
+                <p>Clearance for Sangguniang Kabataan activities</p>
+            </a>
+        </div>
+
+        <div class="back">
+            <a href="index.html">⬅ Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

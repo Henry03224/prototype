@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pending Documents - Barangay Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* Global resets and font settings */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: #434444;
+      color: #f0f0f0;
+      padding: 20px 10px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #fff;
+    }
+    .back-link {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .back-link a {
+      color: #00bcd4;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .table-container {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #1e1e1e;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    thead {
+      background: #188897;
+    }
+    thead th {
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      color: #fff;
+    }
+    tbody tr {
+      border-bottom: 1px solid #2c2c2c;
+      transition: background 0.3s ease;
+    }
+    tbody tr:hover {
+      background: #2c2c2c;
+    }
+    tbody td {
+      padding: 12px;
+    }
+    .status {
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: center;
+      display: inline-block;
+      background: #f39c12;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Pending Documents</h1>
+    <div class="back-link">
+      <a href="home.html">← Back to Dashboard</a>
+    </div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Document Type</th>
+            <th>Submitted By</th>
+            <th>Date Submitted</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Barangay Clearance</td>
+            <td>Juan Dela Cruz</td>
+            <td>2025-03-15</td>
+            <td><span class="status">Pending</span></td>
+          </tr>
+          <tr>
+            <td>Certificate of Residency</td>
+            <td>Maria Santos</td>
+            <td>2025-03-16</td>
+            <td><span class="status">Pending</span></td>
+          </tr>
+          <tr>
+            <td>Business Clearance</td>
+            <td>Carlos Reyes</td>
+            <td>2025-03-17</td>
+            <td><span class="status">Pending</span></td>
+          </tr>
+          <!-- Add more pending document rows as needed -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

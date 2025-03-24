@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Certificate of Residency - Word Docs Style</title>
+  <!-- Font Awesome para sa icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTTXRNAn18bQZqqzsJepdTTVz0ZyotQK0d8v38HOpco0Cfw/UBs3h1URcxN3+Y5kGUe6VHJ9qw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Body Style */
+    body {
+      background: #ccc;
+      padding: 20px;
+      font-family: "Times New Roman", serif;
+      margin: 0;
+    }
+    /* Save Button at the top */
+    .save-button {
+      display: block;
+      width: 220px;
+      margin: 20px auto;
+      padding: 15px;
+      background: #28a745;
+      color: #fff;
+      font-size: 16px;
+      text-align: center;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .save-button i {
+      margin-right: 8px;
+    }
+    .save-button:hover {
+      background: #218838;
+      transform: translateY(-2px);
+    }
+    /* Document Container simulating a Word document page */
+    .doc-container {
+      width: 8.5in;       /* Letter size width */
+      min-height: 11in;   /* Letter size height */
+      margin: 20px auto;
+      padding: 1in;       /* Inner margin simulating a Word doc */
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    /* Header Section */
+    .doc-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .doc-header h1 {
+      font-size: 24pt;
+      margin-bottom: 5px;
+    }
+    .doc-header p {
+      font-size: 12pt;
+      margin-top: 0;
+    }
+    /* Editable Content Area */
+    .doc-content {
+      font-size: 12pt;
+      line-height: 1.6;
+      padding: 10px;
+      outline: none;
+    }
+    .doc-content p {
+      margin-bottom: 15px;
+      text-align: justify;
+    }
+  </style>
+</head>
+<body>
+  <!-- Save Button at the top with icon -->
+  <button class="save-button" onclick="saveDocument()">
+    <i class="fas fa-save"></i> Save as Record
+  </button>
+
+  <div class="doc-container">
+    <div class="doc-header">
+      <h1>Certificate of Residency</h1>
+      <p>Barangay [Pangalan ng Barangay] Official Document</p>
+    </div>
+    <!-- Editable content; maaari mong baguhin at dagdagan ang laman -->
+    <div class="doc-content" contenteditable="true" id="docContent">
+      <p>This is to certify that <strong>Juan Dela Cruz</strong>, residing at <strong>Brgy. Mabini, City</strong>, is a bona fide resident of this barangay. The undersigned hereby confirms that the above-mentioned individual has been a resident of this community since <strong>January 1, 2020</strong>.</p>
+      <p>The purpose of this certificate is to serve as a supporting document for various transactions and legal requirements. This certificate is issued upon the request of the concerned party and is valid for six (6) months from the date of issuance.</p>
+      <p>Additional details may be appended as needed. All information provided in this document is considered accurate and is issued under the authority of the barangay officials. Any misuse or misrepresentation of this document is subject to legal sanctions.</p>
+      <p>For further inquiries, please contact the Barangay Hall during official working hours. This certificate is not valid for identification purposes beyond the intended use stated herein.</p>
+      <p>Issued on: <strong>2025-03-16</strong></p>
+      <p>Certificate No.: <strong>CR-001</strong></p>
+    </div>
+  </div>
+
+  <script>
+    function saveDocument() {
+      // Kinokolekta ang laman ng dokumento
+      const content = document.getElementById("docContent").innerHTML;
+      console.log("Saved Document Content:", content);
+      alert("Document record has been saved successfully!");
+      // Ilagay dito ang aktwal na saving logic (e.g., AJAX, localStorage, o server-side request)
+    }
+  </script>
+</body>
+</html>

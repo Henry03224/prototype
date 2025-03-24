@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barangay Clearance - Pumili ng Template</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: #434444;
+      padding: 20px 10px;
+      color: #f0f0f0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #fff;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+    .card {
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 188, 212, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 12px rgba(0, 188, 212, 0.4);
+    }
+    .card .icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+      color: #00bcd4;
+    }
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 5px;
+      color: #fff;
+    }
+    .card p {
+      font-size: 14px;
+      color: #b0bec5;
+    }
+    .select-btn {
+      margin-top: 15px;
+      display: inline-block;
+      background: #00bcd4;
+      color: #fff;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s ease;
+      font-size: 14px;
+    }
+    .select-btn:hover {
+      background: #0097a7;
+    }
+    .back-link {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .back-link a {
+      color: #00bcd4;
+      text-decoration: none;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Pumili ng Template para sa Certificate of Indigency</h1>
+    <div class="grid">
+      <div class="card" onclick="selectTemplate('standard', event)">
+        <div class="icon">📄</div>
+        <h2>Standard Clearance</h2>
+        <p>Basic na template para sa clearance.</p>
+      </div>
+      <div class="card" onclick="selectTemplate('withSeal', event)">
+        <div class="icon">📑</div>
+        <h2>Clearance with Seal</h2>
+        <p>Template na may opisyal na tatak at lagda.</p>
+      </div>
+      <div class="card" onclick="selectTemplate('custom', event)">
+        <div class="icon">📝</div>
+        <h2>Custom Clearance</h2>
+        <p>I-customize ang template ayon sa pangangailangan.</p>
+      </div>
+    </div>
+    <div style="text-align: center;">
+      <a id="useTemplate" class="select-btn" href="#" style="display: none;" onclick="proceedToTemplate(event)">Gamitin ang Template</a>
+    </div>
+    <div class="back-link">
+      <a href="dashboard.html">← Balik sa Dashboard</a>
+    </div>
+  </div>
+
+  <script>
+    let selectedTemplate = "";
+
+    function selectTemplate(template, event) {
+      selectedTemplate = template;
+      // Alisin ang border sa lahat ng card at i-highlight ang napiling card
+      document.querySelectorAll(".card").forEach(card => {
+        card.style.border = "none";
+      });
+      event.currentTarget.style.border = "2px solid #00bcd4";
+
+      // Ipakita ang "Gamitin ang Template" button
+      document.getElementById("useTemplate").style.display = "inline-block";
+    }
+
+    function proceedToTemplate(e) {
+      e.preventDefault();
+      if (!selectedTemplate) {
+        alert("Pumili muna ng template.");
+        return;
+      }
+      let targetUrl = "";
+      switch (selectedTemplate) {
+        case "standard":
+          targetUrl = "edit_clearance_standard.html";
+          break;
+        case "withSeal":
+          targetUrl = "edit_clearance_standard.html";
+          break;
+        case "custom":
+          targetUrl = "edit_clearance_standard.html";
+          break;
+        default:
+          targetUrl = "edit_clearance.html";
+      }
+      window.location.href = targetUrl;
+    }
+  </script>
+</body>
+</html>

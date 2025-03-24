@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barangay Dashboard - Dark Mode</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* Global resets and font settings */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: #434444;
+      padding: 40px 20px;
+      color: #f0f0f0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+    /* Top Navigation Bar */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .top-nav-left h1 {
+      color: #fff;
+      font-size: 24px;
+    }
+    /* Pending Documents Button */
+    .top-nav-status {
+      width: fit-content;
+    }
+    .top-nav-status a {
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+      background: #188897;
+      color: #fff;
+      border-radius: 25px;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0, 188, 212, 0.3);
+      transition: background 0.3s ease;
+    }
+    .top-nav-status a:hover {
+      background: #0097a7;
+    }
+    .top-nav-status .icon {
+      font-size: 20px;
+      margin-right: 8px;
+    }
+    .top-nav-status .label {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .section-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: #fffafa;
+      margin: 20px 0;
+      border-left: 5px solid #00bcd4;
+      padding: 10px;
+      cursor: pointer;
+      transition: color 0.3s ease-in-out;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .section-title:hover {
+      color: #f4f7f8;
+    }
+    .toggle-icon {
+      font-size: 18px;
+      color: #ffffff;
+      transition: transform 0.3s ease;
+    }
+    .collapsed .toggle-icon {
+      transform: rotate(180deg);
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      transition: max-height 0.5s ease, opacity 0.5s ease;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .dashboard.visible {
+      max-height: 1000px;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .card {
+      background: #1e1e1e;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 188, 212, 0.2);
+      transition: 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 188, 212, 0.4);
+    }
+    .card .icon {
+      font-size: 38px;
+      color: #00bcd4;
+      margin-bottom: 15px;
+    }
+    .card h2 {
+      font-size: 18px;
+      color: #ffffff;
+      margin-bottom: 5px;
+    }
+    .card p {
+      font-size: 14px;
+      color: #b0bec5;
+    }
+    /* Modal Styles */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal-content {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+    }
+    .modal-content h2 {
+      margin-bottom: 15px;
+      color: #fff;
+      text-align: center;
+    }
+    .modal-content label {
+      display: block;
+      margin-bottom: 5px;
+      color: #f0f0f0;
+    }
+    .modal-content input,
+    .modal-content select,
+    .modal-content textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 4px;
+    }
+    .modal-content button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .modal-content .btn-add {
+      background: #00bcd4;
+      color: #fff;
+      margin-right: 10px;
+    }
+    .modal-content .btn-cancel {
+      background: #ccc;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Top Navigation Bar -->
+    <div class="top-nav">
+      <div class="top-nav-left">
+        <h1>Dashboard</h1>
+      </div>
+      <div class="top-nav-status">
+        <a href="pending_status.html">
+          <span class="icon">⏰</span>
+          <span class="label">Pending Documents</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Residents Section -->
+    <div class="section-title collapsed" onclick="toggleSection('residents', this)">
+      👥 Residents <span class="toggle-icon"></span>
+    </div>
+    <div class="dashboard" id="residents">
+      <a href="residents.html" class="card">
+        <div class="icon">🏠</div>
+        <h2>Registered Residents</h2>
+        <p>1,245 Total Residents</p>
+      </a>
+      <a href="resident_info.html" class="card">
+        <div class="icon">➕</div>
+        <h2>Add New Resident</h2>
+        <p>Register a new resident</p>
+      </a>
+      <a href="household.html" class="card">
+        <div class="icon">🏡</div>
+        <h2>Registered Households</h2>
+        <p>350 Families Listed</p>
+      </a>
+    </div>
+
+    <!-- Certificates & Legal Documents -->
+    <div class="section-title collapsed" onclick="toggleSection('certificates', this)">
+      📜 Certificates & Legal <span class="toggle-icon"></span>
+    </div>
+    <div class="dashboard" id="certificates">
+      <a href="certificates.html" class="card">
+        <div class="icon">📑</div>
+        <h2>Issued Certificates</h2>
+        <p>325 Certificates This Month</p>
+      </a>
+     
+    </div>
+
+    <!-- Barangay Services -->
+    <div class="section-title collapsed" onclick="toggleSection('services', this)">
+      🛠️ Barangay Services <span class="toggle-icon"></span>
+    </div>
+    <div class="dashboard" id="services">
+      <a href="barangay_clearance.html" class="card">
+        <div class="icon">📄</div>
+        <h2>Barangay Clearance</h2>
+        <p>Standard clearance for various transactions</p>
+      </a>
+      <a href="certificate_residency.html" class="card">
+        <div class="icon">🏠</div>
+        <h2>Certificate of Residency</h2>
+        <p>Proof of residence in the barangay</p>
+      </a>
+      <a href="business_clearance.html" class="card">
+        <div class="icon">📜</div>
+        <h2>Business Clearance</h2>
+        <p>Permit for business operations</p>
+      </a>
+      <!-- Button to trigger modal for adding new service -->
+      <button onclick="addService()" style="margin-top: 20px; padding: 10px 15px; background: #00bcd4; color: white; border: none; border-radius: 8px; cursor: pointer;">
+        ➕ Add New Service
+      </button>
+    </div>
+
+    <!-- Templates Section -->
+    <div class="section-title collapsed" onclick="toggleSection('templates', this)">
+      📂 Templates <span class="toggle-icon"></span>
+    </div>
+    <div class="dashboard" id="templates">
+      <a href="list_barangay_clearance.html" class="card">
+        <div class="icon">📄</div>
+        <h2>Barangay Clearance</h2>
+        <p>Standard clearance document</p>
+      </a>
+      <a href="list_certificate_residency.html" class="card">
+        <div class="icon">🏠</div>
+        <h2>Certificate of Residency</h2>
+        <p>Proof of residence</p>
+      </a>
+      <a href="list_business_permit.html" class="card">
+        <div class="icon">📜</div>
+        <h2>Business Permit</h2>
+        <p>For business applications</p>
+      </a>
+    </div>
+
+    <!-- Complaints Section -->
+    <div class="section-title collapsed" onclick="toggleSection('complaints', this)">
+      📝 Complaints <span class="toggle-icon"></span>
+    </div>
+    <div class="dashboard" id="complaints">
+      <a href="blotter.html" class="card">
+        <div class="icon">📝</div>
+        <h2>All Complaints</h2>
+        <p>View filed complaints</p>
+      </a>
+      <a href="#" class="card" onclick="addComplaint()">
+        <div class="icon">➕</div>
+        <h2>New Complaint</h2>
+        <p>Register a new complaint</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- Modal for adding new service -->
+  <div id="serviceModal" class="modal">
+    <div class="modal-content">
+      <h2>Add New Service</h2>
+      <label for="serviceType">Service Type:</label>
+      <select id="serviceType" onchange="updateServiceFields()">
+        <option value="" disabled selected>Select service type</option>
+        <option value="clearance">Barangay Clearance</option>
+        <option value="certificate">Certificate of Residency</option>
+        <option value="business">Business Clearance</option>
+        <option value="id">Barangay ID</option>
+        <option value="custom">Custom</option>
+      </select>
+      <label for="serviceIcon">Service Icon:</label>
+      <input type="text" id="serviceIcon" placeholder="Enter icon" />
+      <label for="serviceName">Service Name:</label>
+      <input type="text" id="serviceName" placeholder="Enter service name" />
+      <label for="serviceDesc">Service Description:</label>
+      <input type="text" id="serviceDesc" placeholder="Enter service description" />
+      <div style="text-align: right;">
+        <button class="btn-add" onclick="submitService()">Add</button>
+        <button class="btn-cancel" onclick="cancelService()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for adding new complaint -->
+  <div id="complaintModal" class="modal">
+    <div class="modal-content">
+      <h2>Add New Complaint</h2>
+      <label for="complainant">Complainant Name:</label>
+      <input type="text" id="complainant" placeholder="Enter complainant name" />
+      <label for="complainantContact">Contact Details:</label>
+      <input type="text" id="complainantContact" placeholder="Enter contact details" />
+      <label for="complaintDesc">Complaint Description:</label>
+      <textarea id="complaintDesc" placeholder="Enter complaint description"></textarea>
+      <label for="complaintDate">Date:</label>
+      <input type="date" id="complaintDate" />
+      <div style="text-align: right;">
+        <button class="btn-add" onclick="submitComplaint()">Add</button>
+        <button class="btn-cancel" onclick="cancelComplaint()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSection(sectionId, titleElement) {
+      var section = document.getElementById(sectionId);
+      if (section.classList.contains("visible")) {
+        section.style.maxHeight = "0px";
+        section.style.opacity = "0";
+        section.style.pointerEvents = "none";
+        titleElement.classList.add("collapsed");
+      } else {
+        section.style.maxHeight = section.scrollHeight + "px";
+        section.style.opacity = "1";
+        section.style.pointerEvents = "auto";
+        titleElement.classList.remove("collapsed");
+      }
+      section.classList.toggle("visible");
+    }
+
+    // Service modal functions
+    function addService() {
+      document.getElementById("serviceModal").style.display = "flex";
+    }
+
+    function updateServiceFields() {
+      var type = document.getElementById("serviceType").value;
+      var defaults = {
+        clearance: { icon: "📄", name: "Barangay Clearance", desc: "Standard clearance for various transactions" },
+        certificate: { icon: "🏠", name: "Certificate of Residency", desc: "Proof of residence in the barangay" },
+        business: { icon: "📜", name: "Business Clearance", desc: "Permit for business operations" },
+        id: { icon: "🆔", name: "Barangay ID", desc: "Identification card issued by the barangay" }
+      };
+
+      if (defaults[type]) {
+        document.getElementById("serviceIcon").value = defaults[type].icon;
+        document.getElementById("serviceName").value = defaults[type].name;
+        document.getElementById("serviceDesc").value = defaults[type].desc;
+      } else {
+        document.getElementById("serviceIcon").value = "";
+        document.getElementById("serviceName").value = "";
+        document.getElementById("serviceDesc").value = "";
+      }
+    }
+
+    function submitService() {
+      var icon = document.getElementById("serviceIcon").value;
+      var name = document.getElementById("serviceName").value;
+      var desc = document.getElementById("serviceDesc").value;
+
+      if (name && desc) {
+        var newServiceCard = document.createElement("a");
+        newServiceCard.classList.add("card");
+        newServiceCard.href = "#";
+        newServiceCard.innerHTML = `
+          <div class="icon">${icon}</div>
+          <h2>${name}</h2>
+          <p>${desc}</p>
+        `;
+        document.getElementById("services").appendChild(newServiceCard);
+
+        // Optionally add the service card to the Templates section
+        var newTemplateCard = document.createElement("a");
+        newTemplateCard.classList.add("card");
+        newTemplateCard.href = "#";
+        newTemplateCard.innerHTML = `
+          <div class="icon">${icon}</div>
+          <h2>${name}</h2>
+          <p>${desc}</p>
+        `;
+        document.getElementById("templates").appendChild(newTemplateCard);
+
+        document.getElementById("serviceModal").style.display = "none";
+        document.getElementById("serviceType").value = "";
+        document.getElementById("serviceIcon").value = "";
+        document.getElementById("serviceName").value = "";
+        document.getElementById("serviceDesc").value = "";
+      } else {
+        alert("Please fill in all fields.");
+      }
+    }
+
+    function cancelService() {
+      document.getElementById("serviceModal").style.display = "none";
+    }
+
+    // Complaint modal functions
+    function addComplaint() {
+      document.getElementById("complaintModal").style.display = "flex";
+    }
+
+    function submitComplaint() {
+      var complainant = document.getElementById("complainant").value;
+      var contact = document.getElementById("complainantContact").value;
+      var description = document.getElementById("complaintDesc").value;
+      var date = document.getElementById("complaintDate").value;
+
+      if (complainant && contact && description && date) {
+        var newComplaintCard = document.createElement("a");
+        newComplaintCard.classList.add("card");
+        newComplaintCard.href = "#";
+        newComplaintCard.innerHTML = `
+          <div class="icon">📝</div>
+          <h2>${complainant}</h2>
+          <p>${description}</p>
+        `;
+        document.getElementById("complaints").appendChild(newComplaintCard);
+
+        document.getElementById("complaintModal").style.display = "none";
+        document.getElementById("complainant").value = "";
+        document.getElementById("complainantContact").value = "";
+        document.getElementById("complaintDesc").value = "";
+        document.getElementById("complaintDate").value = "";
+      } else {
+        alert("Please fill in all fields.");
+      }
+    }
+
+    function cancelComplaint() {
+      document.getElementById("complaintModal").style.display = "none";
+    }
+  </script>
+</body>
+</html>

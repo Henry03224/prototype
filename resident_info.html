@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resident Information Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ccc;
+        }
+        .form-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .column {
+            width: 48%;
+        }
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .save-btn {
+            background-color: blue;
+            color: white;
+        }
+        .close-btn {
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Resident Information</h2>
+        <div>
+            <img id="profileImage" src="default-profile.png" alt="Profile Picture" class="profile-pic">
+            <input type="file" id="imageUpload" accept="image/*" onchange="loadImage(event)">
+        </div>
+        <div class="form-container">
+            <div class="column">
+                <div class="form-group">
+                    <label for="alias">Full Name</label>
+                    <input type="text" id="" placeholder="Enter Full Name">
+                </div>
+                <div class="form-group">
+                    <label for="birthplace">Place of Birth</label>
+                    <input type="text" id="birthplace" placeholder="Enter Birthplace">
+                </div>
+                <div class="form-group">
+                    <label for="birthdate">Birthdate</label>
+                    <input type="date" id="birthdate" oninput="calculateAge()">
+                </div>
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" placeholder="Enter Age" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="civilStatus">Civil Status</label>
+                    <select id="civilStatus">
+                        <option value="">Select Civil Status</option>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
+            <div class="column">
+                <div class="form-group">
+                    <label for="purok">Purok</label>
+                    <select id="purok">
+                        <option value="">Select Purok Name</option>
+                        <option value="Purok 1">Purok 1</option>
+                        <option value="Purok 2">Purok 2</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="votersStatus">Voter Status</label>
+                    <select id="votersStatus">
+                        <option value="">Select Voter Status</option>
+                        <option value="Registered">Registered</option>
+                        <option value="Not Registered">Not Registered</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="identifiedAs">Identified As</label>
+                    <input type="text" id="identifiedAs" placeholder="Enter Identity">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter Email">
+                </div>
+                <div class="form-group">
+                    <label for="contact">Contact Number</label>
+                    <input type="tel" id="contact" placeholder="Enter Contact Number">
+                </div>
+                <div class="form-group">
+                    <label for="occupation">Occupation</label>
+                    <input type="text" id="occupation" placeholder="Enter Occupation">
+                </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="close-btn" onclick="closeForm()">Close</button>
+            <button class="save-btn" onclick="saveForm()">Save</button>
+        </div>
+    </div>
+
+    <script>
+        function saveForm() {
+            alert("Form has been saved!");
+        }
+        function closeForm() {
+            alert("Form has been closed!");
+        }
+        function calculateAge() {
+            let birthdate = document.getElementById("birthdate").value;
+            if (birthdate) {
+                let today = new Date();
+                let birthDate = new Date(birthdate);
+                let age = today.getFullYear() - birthDate.getFullYear();
+                let monthDiff = today.getMonth() - birthDate.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                document.getElementById("age").value = age;
+            }
+        }
+        function loadImage(event) {
+            let output = document.getElementById('profileImage');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        }
+    </script>
+</body>
+</html>

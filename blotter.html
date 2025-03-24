@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barangay Blotter Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: #434444;
+      padding: 40px 20px;
+      color: #f0f0f0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: #fffafa;
+    }
+    .actions {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+    .add-btn {
+      background: #00bcd4;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .add-btn:hover {
+      background: #0097a7;
+    }
+    .table-section {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 188, 212, 0.2);
+    }
+    .table-section h2 {
+      margin-bottom: 15px;
+      font-size: 22px;
+      color: #00bcd4;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #f0f0f0;
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #333;
+      text-align: left;
+    }
+    th {
+      background: #00bcd4;
+      color: #1e1e1e;
+    }
+    .status-select {
+      background: #333;
+      color: #f0f0f0;
+      border: 1px solid #555;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 14px;
+    }
+    .status-select option {
+      background: #1e1e1e;
+      color: #f0f0f0;
+    }
+    .back-link {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .back-link a {
+      color: #00bcd4;
+      text-decoration: none;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Record Of Complaints</h1>
+    <div class="actions">
+      <a href="add new.html" class="add-btn">➕ Add New Complaint</a>
+    </div>
+    <div class="table-section">
+      <h2>Listahan ng mga Complaints</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Complainant</th>
+            <th>Respondent</th>
+            <th>Detalye</th>
+            <th>Petsa</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Juan Dela Cruz</td>
+            <td>Pedro Santos</td>
+            <td>Alitan sa kalsada</td>
+            <td>2025-03-18</td>
+            <td>
+              <select class="status-select">
+                <option value="pending" selected>Pending</option>
+                <option value="resolved">Resolved</option>
+              </select>
+            </td>
+          </tr>
+          <!-- Maaari pang magdagdag ng rows dito -->
+        </tbody>
+      </table>
+    </div>
+    <div class="back-link">
+      <a href="home.html">← Balik sa Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>

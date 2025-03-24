@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resident Profile</title>
+  <!-- Font Awesome para sa default icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTTXRNAn18bQZqqzsJepdTTVz0ZyotQK0d8v38HOpco0Cfw/UBs3h1URcxN3+Y5kGUe6VHJ9qw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .profile-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .profile-header {
+      background-color: #007bff;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    .profile-header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    .profile-content {
+      padding: 20px;
+    }
+    .profile-picture {
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .profile-picture img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #007bff;
+    }
+    /* Default icon style - naka-center at parehong laki ng profile image */
+    .default-icon {
+      display: none;
+      font-size: 120px;
+      color: #007bff;
+    }
+    .profile-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .detail {
+      flex: 1 1 45%;
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .detail h3 {
+      margin: 0 0 5px;
+      font-size: 16px;
+      color: #333;
+    }
+    .detail p {
+      margin: 0;
+      font-size: 14px;
+      color: #666;
+    }
+    .profile-actions {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .profile-actions button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 0 5px;
+    }
+    .profile-actions button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <div class="profile-header">
+      <h1>Juan Dela Cruz</h1>
+    </div>
+    <div class="profile-content">
+      <div class="profile-picture">
+        <!-- Online Profile Image; kung hindi mag-load, ipapakita ang default icon -->
+        <img id="profileImage" src="https://www.w3schools.com/howto/img_avatar.png" alt="Profile Picture" onerror="handleImageError()">
+        <div id="defaultIcon" class="default-icon"><i class="fas fa-user-circle"></i></div>
+      </div>
+      <div class="profile-details">
+        <div class="detail">
+          <h3>Alias</h3>
+          <p>Juanito</p>
+        </div>
+        <div class="detail">
+          <h3>Place of Birth</h3>
+          <p>Brgy. Mabini, City</p>
+        </div>
+        <div class="detail">
+          <h3>Birthdate</h3>
+          <p>1990-01-15</p>
+        </div>
+        <div class="detail">
+          <h3>Age</h3>
+          <p>35</p>
+        </div>
+        <div class="detail">
+          <h3>Civil Status</h3>
+          <p>Single</p>
+        </div>
+        <div class="detail">
+          <h3>Gender</h3>
+          <p>Male</p>
+        </div>
+        <div class="detail">
+          <h3>Purok</h3>
+          <p>Purok 1</p>
+        </div>
+        <div class="detail">
+          <h3>Identified As</h3>
+          <p>Resident</p>
+        </div>
+        <div class="detail">
+          <h3>Email Address</h3>
+          <p>juan@example.com</p>
+        </div>
+        <div class="detail">
+          <h3>Contact Number</h3>
+          <p>+639123456789</p>
+        </div>
+        <div class="detail">
+          <h3>Occupation</h3>
+          <p>Engineer</p>
+        </div>
+      </div>
+      <div class="profile-actions">
+        <button onclick="editProfile()">Edit Profile</button>
+        <button onclick="printProfile()">Print Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function handleImageError() {
+      // Itago ang image element at ipakita ang default icon
+      document.getElementById("profileImage").style.display = "none";
+      document.getElementById("defaultIcon").style.display = "block";
+    }
+    function editProfile() {
+      alert("Redirecting to edit profile page...");
+      window.location.href = "residents.html";
+    }
+    function printProfile() {
+      window.print();
+    }
+  </script>
+</body>
+</html>

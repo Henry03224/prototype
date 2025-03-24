@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Documents</title>
+  <!-- Mammoth Library to extract DOCX text -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #eaeef3;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 2rem;
+    }
+
+    .upload-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f7f9fc;
+      padding: 20px;
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .upload-section input[type="file"] {
+      flex: 1;
+      margin-right: 20px;
+    }
+
+    .btn-upload {
+      background: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .file-list-title {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .document-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      transition: 0.3s ease;
+    }
+
+    .document-card:hover {
+      background: #f0f0f0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .document-name {
+      font-weight: 500;
+      color: #333;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: 0.2s ease;
+    }
+
+    .btn-view {
+      background: #007bff;
+      color: #fff;
+    }
+
+    .btn-edit {
+      background: #17a2b8;
+      color: #fff;
+    }
+
+    .btn-template {
+      background: #ffc107;
+      color: #000;
+    }
+
+    .btn-delete {
+      background: #dc3545;
+      color: #fff;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 900px;
+      max-height: 90vh;
+      overflow: hidden;
+    }
+
+    .modal-body {
+      max-height: 65vh;
+      overflow-y: auto;
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+      white-space: pre-wrap;
+      background: #f9f9f9;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .btn-close {
+      background: #6c757d;
+      color: #fff;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .upload-section {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .upload-section input[type="file"] {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+
+      .document-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .button-group {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📄 Manage Template</h2>
+
+    <div class="upload-section">
+      <input type="file" id="fileInput" accept=".docx" />
+      <button class="btn-upload" onclick="uploadFile()">Upload</button>
+    </div>
+
+    <div class="file-list-title">📂 Uploaded Files:</div>
+    <div class="file-list" id="fileList">
+      <!-- File cards will be added here dynamically -->
+    </div>
+  </div>
+
+  <!-- View Modal -->
+  <div class="modal" id="viewModal">
+    <div class="modal-content">
+      <h3>👀 View Document</h3>
+      <div class="modal-body" id="viewContent"></div>
+      <button class="btn-close" onclick="closeModal('viewModal')">Close</button>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <h3>✍ Edit Document</h3>
+      <textarea id="editContent" style="width:100%; height:200px;"></textarea>
+      <div style="margin-top: 10px;">
+        <button class="btn btn-edit" onclick="saveChanges()">Save</button>
+        <button class="btn-close" onclick="closeModal('editModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let uploadedFiles = [];
+
+    function uploadFile() {
+      const fileInput = document.getElementById("fileInput");
+      if (fileInput.files.length === 0) {
+        alert("Please select a DOCX file.");
+        return;
+      }
+      const file = fileInput.files[0];
+      if (!file.name.endsWith(".docx")) {
+        alert("Only DOCX files are supported.");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        // Use Mammoth to extract text from the DOCX file
+        mammoth
+          .extractRawText({ arrayBuffer: event.target.result })
+          .then(function (result) {
+            const fileData = {
+              name: file.name,
+              content: result.value
+            };
+            uploadedFiles.push(fileData);
+            updateFileList();
+          })
+          .catch(function (err) {
+            console.error(err);
+            alert("Error processing the file.");
+          });
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function updateFileList() {
+      const fileList = document.getElementById("fileList");
+      fileList.innerHTML = "";
+      uploadedFiles.forEach((file, index) => {
+        const card = document.createElement("div");
+        card.className = "document-card";
+        card.innerHTML = `
+          <span class="document-name">${file.name}</span>
+          <div class="button-group">
+            <button class="btn btn-view" onclick="viewFile(${index})">View</button>
+            <button class="btn btn-edit" onclick="editFile(${index})">Edit</button>
+            <button class="btn btn-template" onclick="redirectToTemplate(${index})">Use This Template</button>
+            <button class="btn btn-delete" onclick="deleteFile(${index})">Delete</button>
+          </div>
+        `;
+        fileList.appendChild(card);
+      });
+    }
+
+    function viewFile(index) {
+      document.getElementById("viewContent").innerText = uploadedFiles[index].content;
+      showModal("viewModal");
+    }
+
+    function editFile(index) {
+      document.getElementById("editContent").value = uploadedFiles[index].content;
+      document.getElementById("editContent").setAttribute("data-index", index);
+      showModal("editModal");
+    }
+
+    function saveChanges() {
+      const index = document.getElementById("editContent").getAttribute("data-index");
+      uploadedFiles[index].content = document.getElementById("editContent").value;
+      alert("Changes saved successfully!");
+      closeModal("editModal");
+      updateFileList();
+    }
+
+    function deleteFile(index) {
+      if (confirm("Are you sure you want to delete this document?")) {
+        uploadedFiles.splice(index, 1);
+        updateFileList();
+      }
+    }
+
+    function redirectToTemplate(index) {
+      // Redirect to template.html (pass content if needed)
+      window.location.href = "barangay_clearance.html";
+    }
+
+    function showModal(modalId) {
+      document.getElementById(modalId).style.display = "flex";
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = "none";
+    }
+  </script>
+</body>
+</html>

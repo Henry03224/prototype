@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay System Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Topbar -->
+    <div id="topbar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2>Welcome to the Barangay System Dashboard</h2>
+        <p>This is where the dashboard content will be displayed.</p>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Function to load external components
+        async function loadComponent(containerId, file) {
+            try {
+                const response = await fetch(file);
+                if (!response.ok) throw new Error(`Failed to load ${file}`);
+                document.getElementById(containerId).innerHTML = await response.text();
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        // Load Sidebar and Topbar dynamically
+        loadComponent("sidebar-container", "sidebar.html");
+        loadComponent("topbar-container", "topbar.html");
+    </script>
+</body>
+</html>

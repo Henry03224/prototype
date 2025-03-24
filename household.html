@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Household Records</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #28a745;
+    }
+
+    .actions {
+      margin-bottom: 15px;
+      text-align: right;
+    }
+
+    .add-btn {
+      background-color: #28a745;
+      color: #fff;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-btn:hover {
+      background-color: #218838;
+    }
+
+    .search-box {
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .search-box input {
+      padding: 8px;
+      width: 50%;
+      max-width: 600px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: #fff;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #28a745;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    .action-icons {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .icon-btn {
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .icon-btn:hover {
+      text-decoration: underline;
+    }
+
+    .pagination {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .pagination button {
+      padding: 6px 12px;
+      margin: 2px;
+      border: 1px solid #28a745;
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .pagination button:disabled {
+      background-color: #ccc;
+      border: 1px solid #ccc;
+      cursor: not-allowed;
+    }
+
+    tr:hover {
+      background-color: #e6ffe6;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Household Records</h2>
+    <div class="actions">
+      <button class="add-btn" onclick="addHousehold()">
+        ➕ Add Household
+      </button>
+    </div>
+    <div class="search-box">
+      <input type="text" id="search" placeholder="Search by household head..." onkeyup="searchTable()">
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Household ID</th>
+          <th>Head of Household</th>
+          <th>Address</th>
+          <th>Members</th>
+          <th>Registered Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <!-- Data rows will be added by JavaScript -->
+      </tbody>
+    </table>
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+  <script>
+    const data = [
+      { id: "HH-001", head: "Juan Dela Cruz", address: "Purok 1, Barangay Santo Niño", members: ["Pedro", "Maria", "Juanita", "Lito", "Rosa"], date: "2025-03-01" },
+      { id: "HH-002", head: "Maria Santos", address: "Purok 2, Barangay Santo Niño", members: ["Junior", "Carla", "Mark", "Elena"], date: "2025-03-02" },
+      { id: "HH-003", head: "Pedro Lopez", address: "Purok 3, Barangay Santo Niño", members: ["Ana", "Jose", "Rita", "Miguel", "Nina", "Lorenzo"], date: "2025-03-03" },
+      { id: "HH-004", head: "Ana Garcia", address: "Purok 4, Barangay Santo Niño", members: ["Gabriel", "Marta", "Luis"], date: "2025-03-04" },
+      { id: "HH-005", head: "Jose Fernandez", address: "Purok 5, Barangay Santo Niño", members: ["Roberto", "Carmen", "Julio", "Isabel", "Fernando", "Sofia", "Ricardo"], date: "2025-03-05" },
+      { id: "HH-006", head: "Liza Ramos", address: "Purok 6, Barangay Santo Niño", members: ["Liza Jr.", "Cris"], date: "2025-03-06" },
+      { id: "HH-007", head: "Carlos Mendoza", address: "Purok 7, Barangay Santo Niño", members: ["Miguel", "Esteban", "Diana", "Sergio", "Alicia"], date: "2025-03-07" },
+      { id: "HH-008", head: "Carla Reyes", address: "Purok 8, Barangay Santo Niño", members: ["Ramon", "Gloria", "Eduardo", "Tina"], date: "2025-03-08" },
+      { id: "HH-009", head: "Mark Cruz", address: "Purok 9, Barangay Santo Niño", members: ["Andres", "Nina", "Felipe", "Daisy", "Ron", "Estela", "Peter", "Liza"], date: "2025-03-09" },
+      { id: "HH-010", head: "Grace Dizon", address: "Purok 10, Barangay Santo Niño", members: ["Grace Jr.", "Maria", "Antonio"], date: "2025-03-10" }
+    ];
+
+    let currentPage = 1;
+    const rowsPerPage = 6;
+
+    function displayTable() {
+      const start = (currentPage - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      const rows = data.slice(start, end);
+
+      document.getElementById("table-body").innerHTML = rows.map(row => `
+        <tr>
+          <td>${row.id}</td>
+          <td>${row.head}</td>
+          <td>${row.address}</td>
+          <td>${row.members.length}</td>
+          <td>${row.date}</td>
+          <td class="action-icons">
+            <a class="icon-btn" href="view.html">View</a>
+            <button class="icon-btn" onclick="editHousehold('${row.id}')">✏️ Edit</button>
+            <button class="icon-btn" onclick="deleteHousehold('${row.id}')">❌ Delete</button>
+          </td>
+        </tr>
+      `).join("");
+      updatePagination();
+    }
+
+    function updatePagination() {
+      const totalPages = Math.ceil(data.length / rowsPerPage);
+      let paginationHTML = "";
+      for (let i = 1; i <= totalPages; i++) {
+        paginationHTML += `<button onclick="changePage(${i})" ${i === currentPage ? "disabled" : ""}>${i}</button>`;
+      }
+      document.getElementById("pagination").innerHTML = paginationHTML;
+    }
+
+    function changePage(page) {
+      currentPage = page;
+      displayTable();
+    }
+
+    function searchTable() {
+      let filter = document.getElementById("search").value.toLowerCase();
+      document.querySelectorAll("#table-body tr").forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
+      });
+    }
+
+    function editHousehold(id) {
+      alert(`Editing household ID: ${id}`);
+    }
+
+    function deleteHousehold(id) {
+      if (confirm(`Are you sure you want to delete household ${id}?`)) {
+        const index = data.findIndex(row => row.id === id);
+        if (index !== -1) {
+          data.splice(index, 1);
+          displayTable();
+        }
+      }
+    }
+
+    function addHousehold() {
+      // Redirect to the Add Household page (add.html)
+      window.location.href = "add.html";
+    }
+
+    displayTable();
+  </script>
+</body>
+
+</html>

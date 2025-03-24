@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Household Information</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f6f8;
+      margin: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ddd;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header h2 {
+      color: #1b5e20;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      color: #555;
+      font-size: 14px;
+    }
+
+    .info-group {
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .info-group strong {
+      color: #1b5e20;
+      width: 45%;
+    }
+
+    .info-group span {
+      width: 55%;
+      text-align: right;
+    }
+
+    .members-title {
+      margin-top: 20px;
+      font-weight: 600;
+      color: #1b5e20;
+      border-bottom: 2px solid #1b5e20;
+      padding-bottom: 5px;
+    }
+
+    .members-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+    }
+
+    .members-list li {
+      padding: 8px;
+      background: #e8f5e9;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+    }
+
+    .members-list li::before {
+      content: "•";
+      margin-right: 10px;
+      color: #1b5e20;
+      font-weight: bold;
+    }
+
+    .back-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background-color: #1b5e20;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      margin-top: 25px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background-color: #145a1d;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Household Information</h2>
+      <p>Barangay Records</p>
+    </div>
+
+    <div class="info-group">
+      <strong>Household ID:</strong>
+      <span>HH-001</span>
+    </div>
+    <div class="info-group">
+      <strong>Head of Household:</strong>
+      <span>Juan Dela Cruz</span>
+    </div>
+    <div class="info-group">
+      <strong>Address:</strong>
+      <span>Purok 1, Barangay Santo Niño</span>
+    </div>
+    <div class="info-group">
+      <strong>Registered Date:</strong>
+      <span>2025-03-01</span>
+    </div>
+
+    <div class="members-title">Household Members</div>
+    <ul class="members-list">
+      <li>Pedro</li>
+      <li>Maria</li>
+      <li>Juanita</li>
+      <li>Lito</li>
+      <li>Rosa</li>
+    </ul>
+
+    <a href="household.html" class="back-btn">⬅ Back to Records</a>
+  </div>
+</body>
+
+</html>

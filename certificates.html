@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resident Certification Records</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+        }
+        h2 {
+            text-align: center;
+            color: #007bff;
+        }
+        .search-box {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .search-box input {
+            padding: 8px;
+            width: 50%;
+            max-width: 600px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .status-approved {
+            color: green;
+            font-weight: bold;
+        }
+        .action-icons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .icon-btn {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .pagination {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .pagination button {
+            padding: 5px 10px;
+            margin: 2px;
+            border: 1px solid #007bff;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .pagination button:disabled {
+            background-color: #ccc;
+            border: 1px solid #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Resident Certification Records</h2>
+        <div class="search-box">
+            <input type="text" id="search" placeholder="Search by name..." onkeyup="searchTable()">
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Gender</th>
+                    <th>Date Issued</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <!-- Rows will be populated by JavaScript -->
+            </tbody>
+        </table>
+        <div class="pagination" id="pagination"></div>
+    </div>
+    <script>
+        const data = [
+            { name: "Amorio, Crischel T", gender: "Female", date: "2025-03-10", status: "Pending" },
+            { name: "Cena, John P", gender: "Male", date: "2025-03-09", status: "Approved" },
+            { name: "Jario, Andres P", gender: "Male", date: "2025-03-08", status: "Pending" },
+            { name: "LeBron, James P", gender: "Male", date: "2025-03-07", status: "Approved" },
+            { name: "Doe, Jane", gender: "Female", date: "2025-03-06", status: "Pending" },
+            { name: "Smith, John", gender: "Male", date: "2025-03-05", status: "Approved" },
+            { name: "Garcia, Maria", gender: "Female", date: "2025-03-04", status: "Approved" },
+            { name: "Dela Cruz, Juan", gender: "Male", date: "2025-03-03", status: "Pending" },
+            { name: "Fernandez, Ana", gender: "Female", date: "2025-03-02", status: "Approved" },
+            { name: "Santos, Pedro", gender: "Male", date: "2025-03-01", status: "Pending" },
+            { name: "Lopez, Carla", gender: "Female", date: "2025-02-28", status: "Approved" }
+        ];
+        
+        let currentPage = 1;
+        const rowsPerPage = 8;
+        
+        function displayTable() {
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const rows = data.slice(start, end);
+            
+            document.getElementById("table-body").innerHTML = rows.map((row) => {
+                const statusClass = row.status === "Approved" ? "status-approved" : "";
+                return `
+                <tr>
+                    <td>${row.name}</td>
+                    <td>${row.gender}</td>
+                    <td>${row.date}</td>
+                    <td class="${statusClass}">${row.status}</td>
+                    <td class="action-icons">
+                        <button class="icon-btn" onclick="viewRecord('${row.name}')">🔍 View</button>
+                        <button class="icon-btn" onclick="downloadRecord('${row.name}')">📥 Download</button>
+                        <button class="icon-btn" onclick="printRecord('${row.name}')">🖨️ Print</button>
+                        <button class="icon-btn" onclick="deleteRecord('${row.name}')">❌ Delete</button>
+                    </td>
+                </tr>
+                `;
+            }).join("");
+            updatePagination();
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(data.length / rowsPerPage);
+            let paginationHTML = "";
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `<button onclick="changePage(${i})" ${i === currentPage ? "disabled" : ""}>${i}</button>`;
+            }
+            document.getElementById("pagination").innerHTML = paginationHTML;
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            displayTable();
+        }
+
+        function searchTable() {
+            let filter = document.getElementById("search").value.toLowerCase();
+            document.querySelectorAll("#table-body tr").forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
+            });
+        }
+
+        function viewRecord(name) {
+            alert(`Viewing record of ${name}`);
+        }
+
+        function downloadRecord(name) {
+            alert(`Downloading certificate of ${name}`);
+        }
+
+        function printRecord(name) {
+            alert(`Printing record of ${name}`);
+        }
+
+        function deleteRecord(name) {
+            if (confirm(`Are you sure you want to delete ${name}'s record?`)) {
+                const index = data.findIndex(record => record.name === name);
+                if (index !== -1) {
+                    data.splice(index, 1);
+                    displayTable();
+                }
+            }
+        }
+
+        displayTable();
+    </script>
+</body>
+</html>

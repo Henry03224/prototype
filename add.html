@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Add New Household</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    h2 {
+      text-align: center;
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #333;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: vertical;
+    }
+    /* Styling for the search results dropdown */
+    .search-results {
+      border: 1px solid #ccc;
+      max-height: 150px;
+      overflow-y: auto;
+      background: #fff;
+      position: absolute;
+      width: calc(100% - 22px);
+      z-index: 1000;
+      display: none;
+    }
+    .search-result-item {
+      padding: 8px;
+      cursor: pointer;
+    }
+    .search-result-item:hover {
+      background: #f0f0f0;
+    }
+    .members-container {
+      margin-top: 10px;
+    }
+    .members-container input {
+      margin-bottom: 8px;
+    }
+    .add-member-btn {
+      background: #28a745;
+      color: #fff;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+    .add-member-btn:hover {
+      background: #218838;
+    }
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .save-btn, .cancel-btn {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      width: 48%;
+    }
+    .save-btn {
+      background-color: #28a745;
+      color: white;
+    }
+    .save-btn:hover {
+      background-color: #218838;
+    }
+    .cancel-btn {
+      background-color: #6c757d;
+      color: white;
+    }
+    .cancel-btn:hover {
+      background-color: #5a6268;
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      color: #28a745;
+      text-decoration: none;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Add New Household</h2>
+    <form id="householdForm">
+      <!-- Search Bar to Find Registered Resident -->
+      <label for="headSearch">Search Registered Resident</label>
+      <input type="text" id="headSearch" placeholder="Type to search..." autocomplete="off">
+      <div id="searchResults" class="search-results"></div>
+
+      <!-- Selected Head of Household (read-only) -->
+      <label for="head">Head of Household</label>
+      <input type="text" id="head" name="head" placeholder="Selected Resident" readonly required>
+
+      <label for="address">Address</label>
+      <textarea id="address" name="address" rows="2" required></textarea>
+
+      <label>Members</label>
+      <div class="members-container" id="members-container">
+        <input type="text" name="members[]" placeholder="Member Name" required>
+      </div>
+      <button type="button" class="add-member-btn" onclick="addMember()">➕ Add Member</button>
+
+      <div class="form-actions">
+        <button type="submit" class="save-btn">💾 Save</button>
+        <button type="button" class="cancel-btn" onclick="window.location.href='household.html'">Cancel</button>
+      </div>
+    </form>
+    <a href="household.html" class="back-link">⬅ Back to Household Records</a>
+  </div>
+
+  <script>
+    // Example list of registered residents
+    const residents = [
+      "John Doe",
+      "Jane Smith",
+      "Michael Johnson",
+      "Alice Brown",
+      "Robert Davis",
+      "Emily Clark"
+    ];
+
+    const searchInput = document.getElementById("headSearch");
+    const resultsContainer = document.getElementById("searchResults");
+    const headField = document.getElementById("head");
+
+    // Filter residents based on the search query
+    searchInput.addEventListener("input", function(){
+      const query = this.value.toLowerCase();
+      resultsContainer.innerHTML = ""; // Clear previous results
+      if(query.length === 0) {
+        resultsContainer.style.display = "none";
+        return;
+      }
+      const filtered = residents.filter(name => name.toLowerCase().includes(query));
+      if(filtered.length > 0) {
+        resultsContainer.style.display = "block";
+        filtered.forEach(name => {
+          const div = document.createElement("div");
+          div.classList.add("search-result-item");
+          div.textContent = name;
+          div.addEventListener("click", function(){
+            headField.value = name;     // Set the selected resident
+            resultsContainer.style.display = "none";
+            searchInput.value = "";     // Clear the search bar
+          });
+          resultsContainer.appendChild(div);
+        });
+      } else {
+        resultsContainer.style.display = "none";
+      }
+    });
+
+    // Hide search results when clicking outside the search input/results area
+    document.addEventListener("click", function(e) {
+      if (!resultsContainer.contains(e.target) && e.target !== searchInput) {
+        resultsContainer.style.display = "none";
+      }
+    });
+
+    // Function to add additional household member fields
+    function addMember() {
+      const container = document.getElementById("members-container");
+      const input = document.createElement("input");
+      input.type = "text";
+      input.name = "members[]";
+      input.placeholder = "Member Name";
+      container.appendChild(input);
+    }
+
+    // Example form submission handling
+    document.getElementById("householdForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("Household has been saved! (Submit logic goes here)");
+      // Here you can add your backend submission or localStorage saving logic.
+      window.location.href = 'household.html';
+    });
+  </script>
+</body>
+</html>

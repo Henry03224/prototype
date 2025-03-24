@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay System - Login & Register</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .left-container {
+            width: 50%;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .left-container img {
+            width: 80%;
+            max-width: 300px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .right-container {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            background: #fff;
+        }
+
+        .form-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .form-box h2 {
+            margin-bottom: 25px;
+            color: #222;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .form-box input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 12px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .form-box input:focus {
+            border-color: #28a745;
+            outline: none;
+            box-shadow: 0 0 5px rgba(40, 167, 69, 0.3);
+        }
+
+        .form-box button {
+            width: 100%;
+            padding: 12px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .form-box button:hover {
+            background: #218838;
+            box-shadow: 0 5px 15px rgba(33, 136, 56, 0.3);
+        }
+
+        .switch {
+            margin-top: 18px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .switch a {
+            color: #28a745;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .switch a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+
+            .left-container,
+            .right-container {
+                width: 100%;
+                height: 50%;
+            }
+
+            .left-container {
+                padding: 20px;
+            }
+
+            .right-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Left Side -->
+    <div class="left-container">
+        <img src="assets/barangay-logo.png" alt="Barangay Logo">
+    </div>
+
+    <!-- Right Side -->
+    <div class="right-container">
+        <div class="form-box" id="authForm">
+            <h2 id="formTitle">Barangay Login</h2>
+
+            <!-- Login Form -->
+            <div id="loginForm">
+                <input type="text" id="loginUsername" placeholder="Username">
+                <input type="password" id="loginPassword" placeholder="Password">
+                <button onclick="login()">Login</button>
+                <p class="switch">Don't have an account? <a onclick="toggleForm()">Register here</a></p>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerForm" style="display: none;">
+                <input type="text" id="registerUsername" placeholder="Username">
+                <input type="email" id="registerEmail" placeholder="Email">
+                <input type="password" id="registerPassword" placeholder="Password">
+                <button onclick="register()">Register</button>
+                <p class="switch">Already have an account? <a onclick="toggleForm()">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function login() {
+            const username = document.getElementById("loginUsername").value;
+            const password = document.getElementById("loginPassword").value;
+
+            if (username && password) {
+                alert("Login Successful!");
+                window.location.href = "sidebar.html";
+            } else {
+                alert("Please enter valid credentials.");
+            }
+        }
+
+        function register() {
+            const username = document.getElementById("registerUsername").value;
+            const email = document.getElementById("registerEmail").value;
+            const password = document.getElementById("registerPassword").value;
+
+            if (username && email && password) {
+                alert("Registration Successful! Please Login.");
+                toggleForm();
+            } else {
+                alert("Please fill in all fields.");
+            }
+        }
+
+        function toggleForm() {
+            const loginForm = document.getElementById("loginForm");
+            const registerForm = document.getElementById("registerForm");
+            const formTitle = document.getElementById("formTitle");
+
+            if (loginForm.style.display === "none") {
+                loginForm.style.display = "block";
+                registerForm.style.display = "none";
+                formTitle.innerText = "Barangay Login";
+            } else {
+                loginForm.style.display = "none";
+                registerForm.style.display = "block";
+                formTitle.innerText = "Barangay Registration";
+            }
+        }
+    </script>
+
+</body>
+
+</html>

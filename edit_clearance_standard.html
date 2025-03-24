@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pumili ng Resident para sa Certificate of Residency</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* Base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: #434444;
+      color: #f0f0f0;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 26px;
+      color: #fffafa;
+    }
+    /* Search Bar */
+    .search-bar {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .search-bar input {
+      width: 80%;
+      max-width: 400px;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      font-size: 16px;
+    }
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+    }
+    th {
+      background-color: #1e1e1e;
+      color: #00bcd4;
+    }
+    tr:nth-child(even) {
+      background-color: #2e2e2e;
+    }
+    tr:nth-child(odd) {
+      background-color: #1e1e1e;
+    }
+    .select-btn {
+      background: #00bcd4;
+      color: #fff;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .register-btn {
+      display: block;
+      margin: 20px auto;
+      background: #0097a7;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      text-align: center;
+      text-decoration: none;
+      width: fit-content;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Pumili ng Resident para sa Certificate of Residency</h1>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Hanapin ang Resident..." onkeyup="filterResidents()">
+    </div>
+    <table id="residentTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Pangalan</th>
+          <th>Address</th>
+          <th>Aksyon</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>001</td>
+          <td>Juan Dela Cruz</td>
+          <td>Brgy. Mabini, City</td>
+          <td><a class="select-btn" href="edit_certificate.html?residentId=001">Piliin</a></td>
+        </tr>
+        <tr>
+          <td>002</td>
+          <td>Maria Santos</td>
+          <td>Brgy. Luntian, City</td>
+          <td><a class="select-btn" href="edit_certificate.html?residentId=002">Piliin</a></td>
+        </tr>
+        <tr>
+          <td>003</td>
+          <td>Carlos Reyes</td>
+          <td>Brgy. Maligaya, City</td>
+          <td><a class="select-btn" href="edit_certificate.html?residentId=003">Piliin</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <a class="register-btn" href="register_resident.html">Magrehistro ng Bagong Resident</a>
+  </div>
+
+  <script>
+    // Function para i-filter ang listahan ng mga resident base sa search query
+    function filterResidents() {
+      const input = document.getElementById("searchInput");
+      const filter = input.value.toLowerCase();
+      const table = document.getElementById("residentTable");
+      const tr = table.getElementsByTagName("tr");
+      
+      for (let i = 1; i < tr.length; i++) { // Magsimula sa index 1 para hindi kasama ang header row
+        let tdName = tr[i].getElementsByTagName("td")[1];
+        let tdAddress = tr[i].getElementsByTagName("td")[2];
+        if (tdName || tdAddress) {
+          let txtValue = tdName.textContent || tdName.innerText;
+          let txtAddress = tdAddress.textContent || tdAddress.innerText;
+          if (txtValue.toLowerCase().indexOf(filter) > -1 || txtAddress.toLowerCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>

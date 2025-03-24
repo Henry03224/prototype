@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Document Template - Barangay Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: #f5f6fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+        .header {
+            background: #1a252f;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .templates {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .template-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        .template-card h2 {
+            font-size: 18px;
+            color: #1a252f;
+        }
+        .template-card p {
+            font-size: 14px;
+            color: #666;
+        }
+        .icon {
+            font-size: 40px;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        .back {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back a {
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a252f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>View Document Template</h1>
+            <p>Select a document to view</p>
+        </div>
+
+        <div class="templates">
+            <a href="list_barangay_clearance.html" class="template-card">
+                <div class="icon">📄</div>
+                <h2>Barangay Clearance</h2>
+                <p>Standard clearance document</p>
+            </a>
+            <a href="list_certificate_residency.html" class="template-card">
+                <div class="icon">🏠</div>
+                <h2>Certificate of Residency</h2>
+                <p>Proof of residence</p>
+            </a>
+            <a href="list_business_permit.html" class="template-card">
+                <div class="icon">📜</div>
+                <h2>Business Permit</h2>
+                <p>For business applications</p>
+            </a>
+            <a href="list_indigency_certificate.html" class="template-card">
+                <div class="icon">📑</div>
+                <h2>Certificate of Indigency</h2>
+                <p>Proof of financial status</p>
+            </a>
+        </div>
+
+        <div class="back">
+            <a href="index.html">⬅ Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>
